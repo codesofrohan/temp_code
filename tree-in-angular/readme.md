@@ -1,6 +1,6 @@
 install following dependancy
 
-ng add @angular/material
+npm install @angular/material@21 @angular/cdk@21
 
 then add the code in ts file at the location in the ts file for model of the tree:
 
