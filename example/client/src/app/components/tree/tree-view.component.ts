@@ -16,6 +16,8 @@ function isTreeNode(value: TreeNode | { treeData?: TreeNode[] | TreeNode }): val
 })
 export class TreeViewComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource = signal<TreeNode[]>([]);
+  isLoading = signal(true);
+  loadError = signal<string | null>(null);
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
   @ViewChildren('childrenList') childrenLists!: QueryList<ElementRef<HTMLElement>>;
@@ -48,6 +50,8 @@ export class TreeViewComponent implements OnInit, AfterViewInit, OnDestroy {
         
         if (!res) {
           console.warn('Response payload is empty');
+          this.loadError.set('The API returned no tree data.');
+          this.isLoading.set(false);
           return;
         }
 
@@ -64,11 +68,14 @@ export class TreeViewComponent implements OnInit, AfterViewInit, OnDestroy {
         
         this.setInitialExpansion(treeData);
         this.dataSource.set(treeData);
+        this.isLoading.set(false);
         
         setTimeout(() => this.centerScroll(), 150);
       },
       error: (err) => {
         console.error('Failed to load tree data', err);
+        this.loadError.set('Unable to load the tree. Please try again later.');
+        this.isLoading.set(false);
       }
     });
   }

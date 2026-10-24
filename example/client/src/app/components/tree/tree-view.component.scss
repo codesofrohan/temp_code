@@ -1,12 +1,42 @@
 .org-tree-container {
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
   overflow: auto;
   font-family: Roboto, sans-serif;
   background: #f8f9fa;
   height: 100%;
   box-sizing: border-box;
   padding: 20px;
+}
+
+.loading-state,
+.loading-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: auto;
+  color: #37474f;
+  font-size: 15px;
+}
+
+.loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #cfd8dc;
+  border-top-color: #1976d2;
+  border-radius: 50%;
+  animation: loading-spin 0.8s linear infinite;
+}
+
+.loading-error {
+  color: #b3261e;
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .tree-root {

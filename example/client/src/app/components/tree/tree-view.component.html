@@ -1,4 +1,13 @@
 <div class="org-tree-container" #scrollContainer>
+  <div *ngIf="isLoading()" class="loading-state" role="status" aria-live="polite">
+    <span class="loading-spinner" aria-hidden="true"></span>
+    <span>Loading tree...</span>
+  </div>
+
+  <div *ngIf="loadError() as error" class="loading-error" role="alert">
+    {{ error }}
+  </div>
+
   <div class="tree-root">
     <ng-container *ngFor="let rootNode of dataSource()">
       <ng-container *ngTemplateOutlet="treeNodeTmpl; context: { node: rootNode }"></ng-container>
