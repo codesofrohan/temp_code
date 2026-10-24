@@ -1,0 +1,35 @@
+<div class="org-tree-container" #scrollContainer>
+  <div class="tree-root">
+    <ng-container *ngFor="let rootNode of dataSource()">
+      <ng-container *ngTemplateOutlet="treeNodeTmpl; context: { node: rootNode }"></ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Recursive Template for Nodes and Children -->
+<ng-template #treeNodeTmpl let-node="node">
+  <div class="tree-node-branch">
+    
+    <!-- Node Box Card -->
+    <div class="node-box {{ node.level }}" (click)="toggleNode(node)">
+      <div class="node-badge">
+        {{ node.level | uppercase }}
+        <span *ngIf="node.children && node.children.length > 0" class="toggle-icon">
+          {{ node.expanded ? '▼' : '▶' }}
+        </span>
+      </div>
+      <div class="node-title">{{ node.name }}</div>
+      <div class="node-desc">{{ node.desc }}</div>
+    </div>
+
+    <!-- Children Container -->
+    <div class="node-children" *ngIf="node.children && node.children.length > 0 && node.expanded">
+      <div class="children-list" #childrenList>
+        <ng-container *ngFor="let child of node.children">
+          <ng-container *ngTemplateOutlet="treeNodeTmpl; context: { node: child }"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
